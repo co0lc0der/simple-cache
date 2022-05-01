@@ -84,6 +84,22 @@ class Cache
 
 	/**
 	 * @param string $key
+	 * @param callable $dataFunc
+	 * @param int $period
+	 * @return false|mixed
+	 */
+	public function getOrSet(string $key, callable $dataFunc, int $period = self::DEFAULT_PERIOD)
+	{
+		if (!$data = $this->get($key)) {
+			$data = call_user_func($dataFunc);
+			$this->set($key, $data, $period);
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @param string $key
 	 * @return bool
 	 */
   public function delete(string $key): bool
@@ -97,4 +113,14 @@ class Cache
 
 		return false;
   }
+
+	/**
+	 * @return void
+	 */
+	public static function clear(): void
+	{
+		foreach (glob(self::$cachePath . '/*.txt') as $file) {
+			unlink($file);
+		}
+	}
 }
