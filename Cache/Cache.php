@@ -1,36 +1,61 @@
 <?php
-
+/**
+ * Class Cache
+ */
 class Cache
 {
+	/**
+	 * default cache period in seconds
+	 */
 	const DEFAULT_PERIOD = 3600;
-	private static $instance;
-	public static string $cache_path = '';
 
-	public static function getInstance(string $path): Cache
+	/**
+	 * singleton instance
+	 * @var Cache|null $instance
+	 */
+	private static $instance;
+
+	/**
+	 * path to storing cache files
+	 * @var string
+	 */
+	protected static string $cachePath;
+
+	/**
+	 * @param string $path
+	 * @return Cache
+	 */
+	public static function getInstance(string $path = './cache'): Cache
 	{
 		if (self::$instance === null) {
 			self::$instance = new self;
 		}
 
-		self::$cache_path = $path;
+		self::$cachePath = $path;
 
 		return self::$instance;
 	}
 
+	/**
+	 * @param string $key
+	 * @param $data
+	 * @param int $period
+	 * @return bool
+	 */
   public function set(string $key, $data, int $period = self::DEFAULT_PERIOD): bool
 	{
-		if (!is_dir(self::$cache_path)) {
-			mkdir(self::$cache_path);
-			chmod(self::$cache_path, 0777);
+		if (!is_dir(self::$cachePath)) {
+			mkdir(self::$cachePath);
+			chmod(self::$cachePath, 0777);
 		}
 
     if ($period) {
-	    $cache_file = self::$cache_path . '/' . md5($key) . '.txt';
+	    $cacheFile = self::$cachePath . '/' . md5($key) . '.txt';
       $cache['data'] = $data;
 	    $cache['end'] = time() + $period;
 
-      if (file_put_contents($cache_file, serialize($cache))) {
-				chmod($cache_file, 0777);
+      if (file_put_contents($cacheFile, serialize($cache))) {
+				chmod($cacheFile, 0777);
         return true;
       }
     }
@@ -38,27 +63,35 @@ class Cache
     return false;
   }
 
+	/**
+	 * @param string $key
+	 * @return false|mixed
+	 */
   public function get(string $key)
 	{
-	  $cache_file = self::$cache_path . '/' . md5($key) . '.txt';
+	  $cacheFile = self::$cachePath . '/' . md5($key) . '.txt';
 
-    if (file_exists($cache_file)) {
-      $cached = unserialize(file_get_contents($cache_file));
+    if (file_exists($cacheFile)) {
+      $cached = unserialize(file_get_contents($cacheFile));
 
 			if (time() <= $cached['end']) return $cached['data'];
 
-      unlink($cache_file);
+      unlink($cacheFile);
     }
 
     return false;
   }
 
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
   public function delete(string $key): bool
 	{
-    $cache_file = self::$cache_path . '/' . md5($key) . '.txt';
+    $cacheFile = self::$cachePath . '/' . md5($key) . '.txt';
 
-		if (file_exists($cache_file)) {
-      unlink($cache_file);
+		if (file_exists($cacheFile)) {
+      unlink($cacheFile);
 			return true;
     }
 
