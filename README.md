@@ -8,7 +8,7 @@ This is easy-to-use php component to add caching in your project. See `index.php
 - `delete()` - deletes a cache file for the key 
 - `clear()` - flashes all cache data
 ## How to use
-### 1. Include Cache class and init it. It uses `cache` folder by default, but you can change this. 
+### 1. Include Cache class and init it. It uses `cache` folder by default, but you can change the path. 
 ```php
 require_once 'Cache/Cache.php';
 
@@ -26,7 +26,8 @@ if (!$reviews) {
 or
 ```php
 if (!$info = $cache->get('server_info')) {
-  $cache->set('server_info', $_SERVER);
+  $info = $_SERVER;
+  $cache->set('server_info', $info);
 }
 ```
 or

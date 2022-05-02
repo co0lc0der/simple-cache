@@ -11,12 +11,12 @@ class Cache
 
 	/**
 	 * singleton instance
-	 * @var Cache|null $instance
+	 * @var null|Cache $instance
 	 */
 	private static $instance;
 
 	/**
-	 * path to storing cache files
+	 * a path to store cache files
 	 * @var string
 	 */
 	protected static string $cachePath;
@@ -86,7 +86,7 @@ class Cache
 	 * @param string $key
 	 * @param callable $dataFunc
 	 * @param int $period
-	 * @return false|mixed
+	 * @return mixed
 	 */
 	public function getOrSet(string $key, callable $dataFunc, int $period = self::DEFAULT_PERIOD)
 	{
