@@ -5,8 +5,8 @@ This is easy-to-use php component to add caching in your project. See `index.php
 - `set()` - sets a cache for the key for some period
 - `get()` - returns cached data by the key
 - `getOrSet()` - sets a cache if it doesn't exist and returns it or returns cached data
-- `delete()` - deletes a cache file for the key 
-- `clear()` - flashes all cache data
+- `delete()` - deletes a cache file for the key
+- `clear()` - erases all cache data
 ## How to use
 ### 1. Include Cache class and init it. It uses `cache` folder by default, but you can change the path. 
 ```php
@@ -39,7 +39,7 @@ $reviews = $cache->getOrSet('reviews', function() {
 ### 3. Do something with data you've got.
 ```php
 foreach($reviews as $review) {
-  echo "<div>{$review['name']}<br>{$review['text']}</div>";
+  echo "<h2>{$review['name']}</h2><div>{$review['text']}</div>";
 }
 ```
 or

@@ -22,6 +22,7 @@ class Cache
 	protected static string $cachePath;
 
 	/**
+	 * inits the component
 	 * @param string $path
 	 * @return Cache
 	 */
@@ -37,6 +38,7 @@ class Cache
 	}
 
 	/**
+	 * sets a cache for the key for some period
 	 * @param string $key
 	 * @param $data
 	 * @param int $period
@@ -64,6 +66,7 @@ class Cache
   }
 
 	/**
+	 * returns cached data by the key
 	 * @param string $key
 	 * @return false|mixed
 	 */
@@ -83,6 +86,7 @@ class Cache
   }
 
 	/**
+	 * sets a cache if it doesn't exist and returns it or returns cached data
 	 * @param string $key
 	 * @param callable $dataFunc
 	 * @param int $period
@@ -99,6 +103,7 @@ class Cache
 	}
 
 	/**
+	 * deletes a cache file for the key
 	 * @param string $key
 	 * @return bool
 	 */
@@ -115,6 +120,7 @@ class Cache
   }
 
 	/**
+	 * erases all cache data
 	 * @return void
 	 */
 	public static function clear(): void
